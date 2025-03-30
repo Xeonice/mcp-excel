@@ -38,65 +38,26 @@ Add the following configuration to your MCP config file:
 
 ### Local Development Configuration
 
-For local development and debugging, you can use one of these configurations:
+For local development and debugging, use the following configuration:
 
-1. Using uvx with local path:
 ```json
 {
   "mcpServers": {
     "excel_access": {
-      "command": "uv",
+      "command": "/Users/tanghehui/anaconda3/bin/uv",
       "args": [
-        "run",
-        "/path/to/your/mcp-excel/mcp_excel/main.py"
-      ],
-      "env": {
-        "PYTHONPATH": "/path/to/your/mcp-excel",
-        "VIRTUAL_ENV": "/path/to/your/mcp-excel/.venv"
-      }
-    }
-  }
-}
-```
-
-2. Using direct Python file path:
-```json
-{
-  "mcpServers": {
-    "excel_access": {
-      "command": "python",
-      "args": [
-        "/path/to/your/mcp-excel/mcp_excel/main.py"
-      ],
-      "env": {
-        "PYTHONPATH": "/path/to/your/mcp-excel",
-        "VIRTUAL_ENV": "/path/to/your/mcp-excel/.venv"
-      }
-    }
-  }
-}
-```
-
-3. Using Python module:
-```json
-{
-  "mcpServers": {
-    "excel_access": {
-      "command": "uv",
-      "args": [
+        "--directory",
+        "/Users/tanghehui/WorkProject/mcp-excel/mcp_excel",
         "run",
         "python",
-        "-m",
-        "mcp_excel"
-      ],
-      "env": {
-        "PYTHONPATH": "/path/to/your/mcp-excel",
-        "VIRTUAL_ENV": "/path/to/your/mcp-excel/.venv"
-      }
+        "main.py"
+      ]
     }
   }
 }
 ```
+
+Note: Replace the paths with your actual project paths.
 
 ## Usage
 
