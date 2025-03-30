@@ -219,11 +219,20 @@ def test_read_excel_with_sheet_name(sample_excel_file, capsys):
 
 def test_main_module_execution():
     """Test the __main__ block execution."""
-    # Import the module
-    with patch('mcp_excel.main.main') as mock_main:
-        # Execute the module
-        exec('import mcp_excel.main')
-        importlib.reload(sys.modules['mcp_excel.main'])
+    # Save the original __name__
+    original_name = sys.modules['mcp_excel.main'].__name__
+    
+    try:
+        # Set __name__ to "__main__"
+        sys.modules['mcp_excel.main'].__name__ = "__main__"
         
-        # Check that main() was called
-        mock_main.assert_called_once() 
+        # Import the module
+        with patch('mcp_excel.main.main') as mock_main:
+            # Execute the module
+            importlib.reload(sys.modules['mcp_excel.main'])
+            
+            # Check that main() was called
+            mock_main.assert_called_once()
+    finally:
+        # Restore the original __name__
+        sys.modules['mcp_excel.main'].__name__ = original_name 
