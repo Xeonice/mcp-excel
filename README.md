@@ -27,6 +27,23 @@ Add the following configuration to your MCP config file:
 {
   "mcpServers": {
     "excel_access": {
+      "command": "/Users/tanghehui/anaconda3/bin/uvx",
+      "args": [
+        "mcp-excel"
+      ]
+    }
+  }
+}
+```
+
+### Local Development Configuration
+
+For local development and debugging, you can use this alternative configuration:
+
+```json
+{
+  "mcpServers": {
+    "excel_access": {
       "command": "uv",
       "args": [
         "run",
@@ -107,6 +124,26 @@ df, properties = client.excel_access.read_excel("path/to/file.xlsx", sheet_name=
 5. Build the package:
    ```bash
    python -m build
+   ```
+
+### Local Debugging
+
+1. Install the package in development mode:
+   ```bash
+   pip install -e .
+   ```
+
+2. Start the MCP server directly:
+   ```bash
+   python -m mcp_excel
+   ```
+
+3. In another terminal, you can test the server using the MCP client:
+   ```python
+   from mcp import MCPClient
+   
+   client = MCPClient()
+   df, properties = client.excel_access.read_excel("path/to/your/excel/file.xlsx")
    ```
 
 ## Project Structure
