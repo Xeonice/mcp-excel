@@ -10,6 +10,7 @@ import sys
 from io import StringIO
 from unittest.mock import patch, MagicMock
 import importlib
+import runpy
 
 # Test data directory
 TEST_DATA_DIR = os.path.join(os.path.dirname(__file__), "test_data")
@@ -223,10 +224,8 @@ def test_main_module_execution():
         # Mock the mcp.run() method
         mock_mcp.run.return_value = None
         
-        # Execute the module's __main__ block
-        module = sys.modules['mcp_excel.main']
-        module.__dict__['__name__'] = '__main__'
-        exec(compile('if __name__ == "__main__": main()', '<string>', 'exec'), module.__dict__)
+        # Execute the module as __main__
+        runpy.run_module('mcp_excel.main', run_name='__main__')
         
         # Verify that mcp.run() was called
         mock_mcp.run.assert_called_once() 
