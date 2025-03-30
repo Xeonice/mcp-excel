@@ -220,12 +220,10 @@ def test_read_excel_with_sheet_name(sample_excel_file, capsys):
 
 def test_main_module_execution():
     """Test that the main function is called when the module is run directly."""
-    with patch('mcp_excel.main.mcp') as mock_mcp:
-        # Mock the mcp.run() method
-        mock_mcp.run.return_value = None
-        
+    # Mock anyio.run to prevent actual server startup
+    with patch('anyio.run') as mock_anyio_run:
         # Execute the module as __main__
         runpy.run_module('mcp_excel.main', run_name='__main__')
         
-        # Verify that mcp.run() was called
-        mock_mcp.run.assert_called_once() 
+        # Verify that anyio.run was called
+        mock_anyio_run.assert_called_once() 
