@@ -49,7 +49,11 @@ For local development and debugging, you can use one of these configurations:
       "args": [
         "run",
         "/path/to/your/mcp-excel/mcp_excel/main.py"
-      ]
+      ],
+      "env": {
+        "PYTHONPATH": "/path/to/your/mcp-excel",
+        "VIRTUAL_ENV": "/path/to/your/mcp-excel/.venv"
+      }
     }
   }
 }
@@ -63,7 +67,11 @@ For local development and debugging, you can use one of these configurations:
       "command": "python",
       "args": [
         "/path/to/your/mcp-excel/mcp_excel/main.py"
-      ]
+      ],
+      "env": {
+        "PYTHONPATH": "/path/to/your/mcp-excel",
+        "VIRTUAL_ENV": "/path/to/your/mcp-excel/.venv"
+      }
     }
   }
 }
@@ -80,7 +88,11 @@ For local development and debugging, you can use one of these configurations:
         "python",
         "-m",
         "mcp_excel"
-      ]
+      ],
+      "env": {
+        "PYTHONPATH": "/path/to/your/mcp-excel",
+        "VIRTUAL_ENV": "/path/to/your/mcp-excel/.venv"
+      }
     }
   }
 }
