@@ -219,14 +219,22 @@ def test_read_excel_with_sheet_name(sample_excel_file, capsys):
 
 def test_main_module_execution():
     """Test that the main function is called when the module is run directly."""
-    with patch('mcp_excel.main.mcp') as mock_mcp, \
-         patch('mcp_excel.main.__name__', '__main__'):
+    with patch('mcp_excel.main.mcp') as mock_mcp:
         # Mock the mcp.run() method
         mock_mcp.run.return_value = None
         
-        # Import the module to trigger __main__ block
-        import mcp_excel.main
-        importlib.reload(mcp_excel.main)
+        # Save the original __name__
+        original_name = mcp_excel.main.__name__
         
-        # Verify that mcp.run() was called
-        mock_mcp.run.assert_called_once() 
+        try:
+            # Set __name__ to '__main__'
+            mcp_excel.main.__name__ = '__main__'
+            
+            # Call main() directly
+            mcp_excel.main.main()
+            
+            # Verify that mcp.run() was called
+            mock_mcp.run.assert_called_once()
+        finally:
+            # Restore the original __name__
+            mcp_excel.main.__name__ = original_name 
