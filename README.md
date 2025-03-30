@@ -27,7 +27,7 @@ Add the following configuration to your MCP config file:
 {
   "mcpServers": {
     "excel_access": {
-      "command": "/Users/tanghehui/anaconda3/bin/uvx",
+      "command": "uvx",
       "args": [
         "mcp-excel"
       ]
@@ -45,8 +45,9 @@ For local development and debugging, you can use one of these configurations:
 {
   "mcpServers": {
     "excel_access": {
-      "command": "/Users/tanghehui/anaconda3/bin/uvx",
+      "command": "uv",
       "args": [
+        "run",
         "/path/to/your/mcp-excel/mcp_excel/main.py"
       ]
     }
