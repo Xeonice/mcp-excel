@@ -40,7 +40,21 @@ Add the following configuration to your MCP config file:
 
 For local development and debugging, you can use one of these configurations:
 
-1. Using direct Python file path:
+1. Using uvx with local path:
+```json
+{
+  "mcpServers": {
+    "excel_access": {
+      "command": "/Users/tanghehui/anaconda3/bin/uvx",
+      "args": [
+        "/path/to/your/mcp-excel/mcp_excel/main.py"
+      ]
+    }
+  }
+}
+```
+
+2. Using direct Python file path:
 ```json
 {
   "mcpServers": {
@@ -54,7 +68,7 @@ For local development and debugging, you can use one of these configurations:
 }
 ```
 
-2. Using Python module:
+3. Using Python module:
 ```json
 {
   "mcpServers": {
