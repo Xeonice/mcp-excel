@@ -2,6 +2,8 @@
 
 A powerful MCP server that provides Excel file reading capabilities with advanced features like data validation, dropdown lists, and cell properties extraction.
 
+English | [中文](README_zh.md)
+
 ## Features
 
 - Read Excel files and get their content as pandas DataFrames
