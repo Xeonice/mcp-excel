@@ -218,16 +218,19 @@ def test_read_excel_with_sheet_name(sample_excel_file, capsys):
     assert f"No specific sheet requested. Reading the first sheet from {sample_excel_file}" in captured.out
 
 def test_main_module_execution():
-    """Test the __main__ block execution."""
-    # Mock the main function
+    """Test that the main function is called when the module is run directly."""
     with patch('mcp_excel.main.main') as mock_main:
+        # Mock the main function
+        mock_main.return_value = None
+        
         # Execute the module's __main__ block directly
-        module = sys.modules['mcp_excel.main']
-        module.__dict__['__name__'] = '__main__'
+        if hasattr(mcp_excel.main, '__name__'):
+            original_name = mcp_excel.main.__name__
+            mcp_excel.main.__name__ = '__main__'
+            try:
+                exec(compile(open('mcp_excel/main.py').read(), 'mcp_excel/main.py', 'exec'), mcp_excel.main.__dict__)
+            finally:
+                mcp_excel.main.__name__ = original_name
         
-        # Simulate the __main__ block execution
-        if module.__dict__['__name__'] == '__main__':
-            module.main()
-        
-        # Check that main() was called
+        # Verify that main() was called
         mock_main.assert_called_once() 
