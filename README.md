@@ -38,8 +38,23 @@ Add the following configuration to your MCP config file:
 
 ### Local Development Configuration
 
-For local development and debugging, you can use this alternative configuration:
+For local development and debugging, you can use one of these configurations:
 
+1. Using direct Python file path:
+```json
+{
+  "mcpServers": {
+    "excel_access": {
+      "command": "python",
+      "args": [
+        "/path/to/your/mcp-excel/mcp_excel/main.py"
+      ]
+    }
+  }
+}
+```
+
+2. Using Python module:
 ```json
 {
   "mcpServers": {
