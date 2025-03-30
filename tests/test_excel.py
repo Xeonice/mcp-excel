@@ -5,6 +5,9 @@ from openpyxl import Workbook
 from openpyxl.worksheet.dimensions import RowDimension, ColumnDimension
 from openpyxl.worksheet.datavalidation import DataValidation
 from mcp_excel import read_excel, get_excel_properties
+from mcp_excel.main import main
+import sys
+from io import StringIO
 
 # Test data directory
 TEST_DATA_DIR = os.path.join(os.path.dirname(__file__), "test_data")
@@ -143,9 +146,12 @@ def test_read_excel_errors():
         read_excel("nonexistent.xlsx")
     
     # Test non-existent sheet
-    nonexistent_file = os.path.join(TEST_DATA_DIR, "test.xlsx")
     with pytest.raises(ValueError):
-        read_excel(nonexistent_file, sheet_name="NonexistentSheet")
+        read_excel(os.path.join(TEST_DATA_DIR, "test.xlsx"), sheet_name="NonexistentSheet")
+    
+    # Test general exception
+    with pytest.raises(Exception):
+        read_excel(None)
 
 def test_get_excel_properties(sample_excel_file):
     """Test getting Excel properties."""
@@ -163,4 +169,36 @@ def test_get_excel_properties(sample_excel_file):
     assert len(properties['data_validation']) == 2
     assert len(properties['merged_cells']) == 1
     assert 4 in properties['hidden_rows']
-    assert 7 in properties['hidden_columns'] 
+    assert 7 in properties['hidden_columns']
+
+def test_get_excel_properties_errors():
+    """Test error handling in get_excel_properties."""
+    # Test non-existent file
+    with pytest.raises(FileNotFoundError):
+        get_excel_properties("nonexistent.xlsx")
+    
+    # Test non-existent sheet
+    with pytest.raises(ValueError):
+        get_excel_properties(os.path.join(TEST_DATA_DIR, "test.xlsx"), sheet_name="NonexistentSheet")
+    
+    # Test general exception
+    with pytest.raises(Exception):
+        get_excel_properties(None)
+
+def test_main_function(capsys):
+    """Test the main function."""
+    # Redirect stderr to capture the output
+    old_stderr = sys.stderr
+    sys.stderr = StringIO()
+    
+    try:
+        # Call main() in a way that won't actually start the server
+        with pytest.raises(SystemExit):
+            main()
+        
+        # Get the captured output
+        output = sys.stderr.getvalue()
+        assert "Starting MCP server for Excel operations..." in output
+    finally:
+        # Restore stderr
+        sys.stderr = old_stderr 
