@@ -20,15 +20,14 @@ Homepage = "https://github.com/ericjulianto/mcp-excel"
 Repository = "https://github.com/ericjulianto/mcp-excel.git"
 
 [project.scripts]
-mcp-excel = "main:main"
+mcp-excel = "mcp_excel.main:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["."]
+packages = ["mcp_excel"]
 
 [tool.hatch.build.targets.sdist]
 include = [
-    "main.py",
-    "test_excel.py",
+    "mcp_excel",
     "README.md",
     "pyproject.toml",
 ]

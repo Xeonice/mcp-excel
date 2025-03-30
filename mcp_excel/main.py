@@ -157,5 +157,9 @@ def get_excel_properties(file_path: str, sheet_name: Optional[str] = None) -> Di
     except Exception as e:
         raise Exception(f"Error reading Excel properties: {str(e)}")
 
-if __name__ == "__main__":
+def main():
+    """Entry point for the MCP server."""
     mcp.run()
+
+if __name__ == "__main__":
+    main()
