@@ -223,8 +223,10 @@ def test_main_module_execution():
         # Mock the mcp.run() method
         mock_mcp.run.return_value = None
         
-        # Call main() directly
-        main()
+        # Execute the module's __main__ block
+        module = sys.modules['mcp_excel.main']
+        module.__dict__['__name__'] = '__main__'
+        exec(compile('if __name__ == "__main__": main()', '<string>', 'exec'), module.__dict__)
         
         # Verify that mcp.run() was called
         mock_mcp.run.assert_called_once() 
