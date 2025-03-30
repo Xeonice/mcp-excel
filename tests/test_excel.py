@@ -5,10 +5,10 @@ from openpyxl import Workbook
 from openpyxl.worksheet.dimensions import RowDimension, ColumnDimension
 from openpyxl.worksheet.datavalidation import DataValidation
 from mcp_excel import read_excel, get_excel_properties
-from mcp_excel.main import main, mcp
+from mcp_excel.main import main, mcp, ExcelHandler
 import sys
 from io import StringIO
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
 import importlib
 
 # Test data directory
@@ -224,13 +224,14 @@ def test_main_module_execution():
         mock_main.return_value = None
         
         # Execute the module's __main__ block directly
-        if hasattr(mcp_excel.main, '__name__'):
-            original_name = mcp_excel.main.__name__
-            mcp_excel.main.__name__ = '__main__'
+        module = sys.modules['mcp_excel.main']
+        if hasattr(module, '__name__'):
+            original_name = module.__name__
+            module.__name__ = '__main__'
             try:
-                exec(compile(open('mcp_excel/main.py').read(), 'mcp_excel/main.py', 'exec'), mcp_excel.main.__dict__)
+                exec(compile(open('mcp_excel/main.py').read(), 'mcp_excel/main.py', 'exec'), module.__dict__)
             finally:
-                mcp_excel.main.__name__ = original_name
+                module.__name__ = original_name
         
         # Verify that main() was called
         mock_main.assert_called_once() 
