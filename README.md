@@ -44,10 +44,10 @@ For local development and debugging, use the following configuration:
 {
   "mcpServers": {
     "excel_access": {
-      "command": "/Users/tanghehui/anaconda3/bin/uv",
+      "command": "uv",
       "args": [
         "--directory",
-        "/Users/tanghehui/WorkProject/mcp-excel/mcp_excel",
+        "/path/to/your/mcp-excel/mcp_excel",
         "run",
         "python",
         "main.py"
@@ -57,7 +57,7 @@ For local development and debugging, use the following configuration:
 }
 ```
 
-Note: Replace the paths with your actual project paths.
+Note: Replace `/path/to/your/mcp-excel` with your actual project path.
 
 ## Usage
 
