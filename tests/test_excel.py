@@ -5,9 +5,10 @@ from openpyxl import Workbook
 from openpyxl.worksheet.dimensions import RowDimension, ColumnDimension
 from openpyxl.worksheet.datavalidation import DataValidation
 from mcp_excel import read_excel, get_excel_properties
-from mcp_excel.main import main
+from mcp_excel.main import main, mcp
 import sys
 from io import StringIO
+from unittest.mock import patch
 
 # Test data directory
 TEST_DATA_DIR = os.path.join(os.path.dirname(__file__), "test_data")
@@ -187,18 +188,14 @@ def test_get_excel_properties_errors():
 
 def test_main_function(capsys):
     """Test the main function."""
-    # Redirect stderr to capture the output
-    old_stderr = sys.stderr
-    sys.stderr = StringIO()
-    
-    try:
-        # Call main() in a way that won't actually start the server
-        with pytest.raises(SystemExit):
-            main()
+    # Mock the MCP server's run method
+    with patch.object(mcp, 'run') as mock_run:
+        # Call main()
+        main()
         
-        # Get the captured output
-        output = sys.stderr.getvalue()
-        assert "Starting MCP server for Excel operations..." in output
-    finally:
-        # Restore stderr
-        sys.stderr = old_stderr 
+        # Check that mcp.run() was called
+        mock_run.assert_called_once()
+        
+        # Check that the startup message was printed
+        captured = capsys.readouterr()
+        assert "Starting MCP server for Excel operations..." in captured.err 
