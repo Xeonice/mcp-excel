@@ -5,7 +5,7 @@ from openpyxl import Workbook
 from openpyxl.worksheet.dimensions import RowDimension, ColumnDimension
 from openpyxl.worksheet.datavalidation import DataValidation
 from mcp_excel import read_excel, get_excel_properties
-from mcp_excel.main import main, mcp, ExcelHandler
+from mcp_excel.main import main, mcp
 import sys
 from io import StringIO
 from unittest.mock import patch, MagicMock
