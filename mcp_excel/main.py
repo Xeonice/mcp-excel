@@ -2,10 +2,12 @@ import pandas as pd
 from mcp.server.fastmcp import FastMCP
 from openpyxl import load_workbook
 from typing import Dict, Any, Optional, Tuple
+import sys
 
 mcp = FastMCP(
-    "Excel",
-    dependencies=["pandas", "openpyxl"]
+    "excel_access",
+    dependencies=["pandas", "openpyxl"],
+    description="MCP server for Excel file operations"
 )
 
 @mcp.tool()
@@ -159,6 +161,7 @@ def get_excel_properties(file_path: str, sheet_name: Optional[str] = None) -> Di
 
 def main():
     """Entry point for the MCP server."""
+    print("Starting MCP server for Excel operations...", file=sys.stderr)
     mcp.run()
 
 if __name__ == "__main__":
