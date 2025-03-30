@@ -10,6 +10,37 @@ mcp = FastMCP(
     description="MCP server for Excel file operations"
 )
 
+def _get_hidden_dimensions(ws) -> Tuple[list, list]:
+    """
+    Get hidden rows and columns from a worksheet.
+    
+    Args:
+        ws: The worksheet to analyze.
+        
+    Returns:
+        Tuple[list, list]: A tuple containing:
+            - List of hidden row numbers
+            - List of hidden column numbers
+    """
+    hidden_rows = []
+    hidden_columns = []
+    
+    # Get hidden rows
+    for row_idx, rd in ws.row_dimensions.items():
+        if rd.hidden:
+            hidden_rows.append(row_idx)
+    
+    # Get hidden columns
+    for col_letter, cd in ws.column_dimensions.items():
+        if cd.hidden:
+            # Convert column letter to number (A=1, B=2, etc.)
+            col_idx = 0
+            for i, c in enumerate(reversed(col_letter)):
+                col_idx += (ord(c) - ord('A') + 1) * (26 ** i)
+            hidden_columns.append(col_idx)
+    
+    return hidden_rows, hidden_columns
+
 @mcp.tool()
 def read_excel(file_path: str, sheet_name: str = None) -> Tuple[pd.DataFrame, Dict[str, Any]]:
     """
@@ -42,13 +73,16 @@ def read_excel(file_path: str, sheet_name: str = None) -> Tuple[pd.DataFrame, Di
         except KeyError:
             raise ValueError(f"Sheet '{sheet_name}' not found in the Excel file.")
         
+        # Get hidden dimensions
+        hidden_rows, hidden_columns = _get_hidden_dimensions(ws)
+        
         # Get properties
         properties = {
             "data_validation": [],
             "dropdown_lists": [],
             "merged_cells": list(ws.merged_cells.ranges) if ws.merged_cells else [],
-            "hidden_rows": [row for row in range(1, ws.max_row + 1) if ws.row_dimensions[row].hidden],
-            "hidden_columns": [col for col in range(1, ws.max_column + 1) if ws.column_dimensions[chr(64 + col)].hidden]
+            "hidden_rows": hidden_rows,
+            "hidden_columns": hidden_columns
         }
         
         # Get data validation and dropdown lists
@@ -117,12 +151,15 @@ def get_excel_properties(file_path: str, sheet_name: Optional[str] = None) -> Di
         except KeyError:
             raise ValueError(f"Sheet '{sheet_name}' not found in the Excel file.")
         
+        # Get hidden dimensions
+        hidden_rows, hidden_columns = _get_hidden_dimensions(ws)
+        
         properties = {
             "data_validation": [],
             "dropdown_lists": [],
             "merged_cells": list(ws.merged_cells.ranges) if ws.merged_cells else [],
-            "hidden_rows": [row for row in range(1, ws.max_row + 1) if ws.row_dimensions[row].hidden],
-            "hidden_columns": [col for col in range(1, ws.max_column + 1) if ws.column_dimensions[chr(64 + col)].hidden]
+            "hidden_rows": hidden_rows,
+            "hidden_columns": hidden_columns
         }
         
         # Get data validation and dropdown lists
