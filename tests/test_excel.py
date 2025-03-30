@@ -9,6 +9,7 @@ from mcp_excel.main import main, mcp
 import sys
 from io import StringIO
 from unittest.mock import patch
+import importlib
 
 # Test data directory
 TEST_DATA_DIR = os.path.join(os.path.dirname(__file__), "test_data")
@@ -198,4 +199,31 @@ def test_main_function(capsys):
         
         # Check that the startup message was printed
         captured = capsys.readouterr()
-        assert "Starting MCP server for Excel operations..." in captured.err 
+        assert "Starting MCP server for Excel operations..." in captured.err
+
+def test_read_excel_with_sheet_name(sample_excel_file, capsys):
+    """Test reading Excel with specific sheet name."""
+    # Test with sheet name
+    df, properties = read_excel(sample_excel_file, sheet_name="Sheet1")
+    
+    # Check that the correct message was printed
+    captured = capsys.readouterr()
+    assert f"Reading sheet 'Sheet1' from {sample_excel_file}" in captured.out
+    
+    # Test without sheet name
+    df, properties = read_excel(sample_excel_file)
+    
+    # Check that the correct message was printed
+    captured = capsys.readouterr()
+    assert f"No specific sheet requested. Reading the first sheet from {sample_excel_file}" in captured.out
+
+def test_main_module_execution():
+    """Test the __main__ block execution."""
+    # Import the module
+    with patch('mcp_excel.main.main') as mock_main:
+        # Execute the module
+        exec('import mcp_excel.main')
+        importlib.reload(sys.modules['mcp_excel.main'])
+        
+        # Check that main() was called
+        mock_main.assert_called_once() 
