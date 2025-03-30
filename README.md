@@ -2,7 +2,7 @@
 
 A powerful MCP server that provides Excel file reading capabilities with advanced features like data validation, dropdown lists, and cell properties extraction.
 
-English | [中文](README_zh.md)
+English | [中文](README_zh.md) | [日本語](README_ja.md)
 
 ## Features
 

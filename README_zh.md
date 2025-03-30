@@ -2,7 +2,7 @@
 
 一个功能强大的 MCP 服务器，提供 Excel 文件读取功能，包括数据验证、下拉列表和单元格属性提取等高级特性。
 
-[English](README.md) | 中文
+[English](README.md) | 中文 | [日本語](README_ja.md)
 
 ## 功能特性
 
